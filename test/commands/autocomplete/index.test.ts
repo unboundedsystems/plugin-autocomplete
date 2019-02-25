@@ -9,7 +9,7 @@ describe('autocomplete index', () => {
 Setup Instructions for OCLIF-EXAMPLE CLI Autocomplete ---
 
 1) Add the autocomplete env var to your bash profile and source it
-$ printf \"$(oclif-example autocomplete:script bash)\" >> ~/.bashrc; source ~/.bashrc
+$ printf \"$(oclif-example autocomplete:script bash)\\n\" >> ~/.bashrc; source ~/.bashrc
 
 NOTE: If your terminal starts as a login shell you may need to print the init script into ~/.bash_profile or ~/.profile.
 
@@ -31,7 +31,7 @@ Enjoy!
 Setup Instructions for OCLIF-EXAMPLE CLI Autocomplete ---
 
 1) Add the autocomplete env var to your zsh profile and source it
-$ printf \"$(oclif-example autocomplete:script zsh)\" >> ~/.zshrc; source ~/.zshrc
+$ printf \"$(oclif-example autocomplete:script zsh)\\n\" >> ~/.zshrc; source ~/.zshrc
 
 NOTE: After sourcing, you can run \`$ compaudit -D\` to ensure no permissions conflicts are present
 
