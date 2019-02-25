@@ -91,7 +91,7 @@ fi
 _oclif-example()
 {
 
-  local cur="\${COMP_WORDS[COMP_CWORD]}" opts IFS=$' \\t\\n'
+  local words=( "\${COMP_WORDS[@]}" ) cword="\${COMP_CWORD}" cur opts IFS=$' \\t\\n'
   COMPREPLY=()
 
   local commands="
@@ -99,13 +99,36 @@ autocomplete --skip-instructions
 autocomplete:foo --bar --baz --json
 "
 
-  if [[ "\${COMP_CWORD}" -eq 1 ]] ; then
+  # If COMP_WORDBREAKS contains colon, bash will split the colon in the
+  # command into a separate word. Reassemble back into a single word.
+  if [[ $cword -gt 1 && \${words[2]} == ":" ]]; then
+    local old_len=\${#words[@]} temp_line temp_exec
+    local regex='^[[:space:]]*([^[:space:]]+)[[:space:]]+(.*)'
+    if [[ $COMP_LINE =~ $regex ]]; then
+      temp_exec="\${BASH_REMATCH[1]}"
+      temp_line="\${BASH_REMATCH[2]}"
+    fi
+    local combined=""
+    for w in \${words[@]:1:3}; do
+      combined="\${combined}\${w}"
+    done
+    if [[ $temp_line =~ ^$combined ]]; then
+      words=( "\${temp_exec}" "\${combined}" "\${words[@]:4}" )
+      local new_len=\${#words[@]}
+      local len_diff=$(( old_len - new_len ))
+      cword=$(( cword - len_diff ))
+    fi
+  fi
+
+  cur="\${words[\${cword}]}"
+
+  if [[ "\${cword}" -eq 1 ]] ; then
       opts=$(printf "$commands" | grep -Eo '^[a-zA-Z0-9:_-]+')
       COMPREPLY=( $(compgen -W "\${opts}" -- \${cur}) )
        __ltrim_colon_completions "$cur"
   else
       if [[ $cur == "-"* ]] ; then
-        opts=$(printf "$commands" | grep "\${COMP_WORDS[1]}" | sed -n "s/^\${COMP_WORDS[1]} //p")
+        opts=$(printf "$commands" | grep "\${words[1]}" | sed -n "s/^\${words[1]} //p")
         COMPREPLY=( $(compgen -W  "\${opts}" -- \${cur}) )
       fi
   fi
