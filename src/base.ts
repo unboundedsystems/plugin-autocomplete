@@ -24,7 +24,8 @@ export abstract class AutocompleteBase extends Command {
     }
     this.errorIfWindows()
     if (!['bash', 'zsh'].includes(shell)) {
-      throw new Error(`${shell} is not a supported shell for autocomplete`)
+      this.error(`${shell} is not a supported shell for autocomplete.\n` +
+        'Supported shells are: bash zsh')
     }
   }
 

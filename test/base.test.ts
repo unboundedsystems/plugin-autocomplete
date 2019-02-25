@@ -33,7 +33,8 @@ runtest('AutocompleteBase', () => {
     try {
       cmd.errorIfNotSupportedShell('fish')
     } catch (e) {
-      expect(e.message).to.eq('fish is not a supported shell for autocomplete')
+      expect(e.message).to.eq('fish is not a supported shell for autocomplete.\n' +
+        'Supported shells are: bash zsh')
     }
   })
 
