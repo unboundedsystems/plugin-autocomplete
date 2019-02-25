@@ -1,7 +1,7 @@
 {
   "name": "@unboundedsystems/plugin-autocomplete",
   "description": "autocomplete plugin for oclif (fork)",
-  "version": "0.1.0-unb0",
+  "version": "0.1.0-unb1",
   "author": "Philipe Navarro @RasPhilCo",
   "bugs": "https://github.com/oclif/plugin-autocomplete/issues",
   "dependencies": {
